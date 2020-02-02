@@ -13,14 +13,14 @@ type menuitem struct {
 
 func main() {
 	menuitems := []menuitem{
-		{"Addition upp 10", additionUppTill10},
-		{"Addition upp 20", func() bool {
-			fmt.Println("Addition upp till 20")
-			return true
+		{"Addition upp 10", func() bool { return additionUppTill(10, 7) }},
+		{"Addition upp 20", func() bool { return additionUppTill(20, 7) }},
+		{"Addition upp 40", func() bool { return additionUppTill(40, 7) }},
+		{"Subtraktion upp 10", func() bool {
+			return subtraktionUppTill(10, 7)
 		}},
 		{"Subtraktion upp 20", func() bool {
-			fmt.Println("Subtraktion upp till 10")
-			return true
+			return subtraktionUppTill(20, 7)
 		}},
 		{"Avsluta", func() bool {
 			fmt.Println("Hejdå")
