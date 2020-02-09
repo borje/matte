@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
+	"time"
 
 	"github.com/manifoldco/promptui"
 )
@@ -31,7 +32,7 @@ type task struct {
 var plus = operator{"+", func(a int, b int) int { return a + b }}
 var minus = operator{"-", func(a int, b int) int { return a - b }}
 
-func ask(first int, second int, op operator) bool {
+func ask(first int, second int, op operator) (bool, error) {
 	label := fmt.Sprintf("%d %s %d", first, op.Str, second)
 	prompt := promptui.Prompt{
 		Label:    label,
@@ -39,11 +40,10 @@ func ask(first int, second int, op operator) bool {
 	}
 	result, err := prompt.Run()
 	if err != nil {
-		fmt.Printf("Prompt failed %v\n", err)
-		return false
+		return false, err
 	}
 	answer, _ := strconv.ParseInt(result, 10, 0)
-	return int(answer) == op.Op(first, second)
+	return int(answer) == op.Op(first, second), nil
 }
 
 func doTasks(tasks []task) []task {
@@ -51,7 +51,11 @@ func doTasks(tasks []task) []task {
 	var incorrect []task
 	for i, task := range tasks {
 		fmt.Printf("\n(%d/%d)\n", i+1, len(tasks))
-		correctAnswer := ask(task.first, task.second, task.op)
+		correctAnswer, err := ask(task.first, task.second, task.op)
+		if err == promptui.ErrInterrupt {
+			fmt.Println("Avbryter")
+			break
+		}
 		if correctAnswer {
 			fmt.Println("Rätt!")
 			countCorrect++
@@ -96,5 +100,28 @@ func subtraktionUppTill(high int, count int) bool {
 	incorrect := doTasks(tasks)
 	countCorrect := len(tasks) - len(incorrect)
 	fmt.Printf("Du hade %d rätt av %d\n", countCorrect, count)
+	return true
+}
+
+func tioKompisar() bool {
+	start := time.Now()
+	count := 4
+	var tasks []task
+	for i := 0; i < count; i++ {
+		b := rand.Intn(10)
+		tasks = append(tasks, task{10, b, minus})
+	}
+	incorrect := doTasks(tasks)
+	end := time.Now()
+	countCorrect := len(tasks) - len(incorrect)
+	fmt.Printf("Du hade %d rätt av %d\n", countCorrect, count)
+	secondsPerTask := (end.Sub(start).Seconds()) / float64(len(tasks))
+	fmt.Printf("Sekunder per fråga: %.1f\n", secondsPerTask)
+	fmt.Println("Snabbhetspoäng: ", int(1000/secondsPerTask))
+	for len(incorrect) > 0 {
+		incorrect = doTasks(incorrect)
+		countCorrect := len(tasks) - len(incorrect)
+		fmt.Printf("Du hade %d rätt av %d\n", countCorrect, count)
+	}
 	return true
 }
