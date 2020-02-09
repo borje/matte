@@ -45,6 +45,7 @@ func main() {
 		// 	"10-kompisar"},
 		Items:     menuitems,
 		Templates: templates,
+		Size:      len(menuitems),
 	}
 
 	for runagain := true; runagain; {

@@ -62,6 +62,7 @@ func doTasks(tasks []task) []task {
 		} else {
 			fmt.Println("Fel! Rätt svar är ", task.op.Op(task.first, task.second))
 			incorrect = append(incorrect, task)
+			time.Sleep(time.Second)
 		}
 	}
 	return incorrect
@@ -105,7 +106,7 @@ func subtraktionUppTill(high int, count int) bool {
 
 func tioKompisar() bool {
 	start := time.Now()
-	count := 4
+	count := 10
 	var tasks []task
 	for i := 0; i < count; i++ {
 		b := rand.Intn(10)
@@ -117,7 +118,8 @@ func tioKompisar() bool {
 	fmt.Printf("Du hade %d rätt av %d\n", countCorrect, count)
 	secondsPerTask := (end.Sub(start).Seconds()) / float64(len(tasks))
 	fmt.Printf("Sekunder per fråga: %.1f\n", secondsPerTask)
-	fmt.Println("Snabbhetspoäng: ", int(1000/secondsPerTask))
+	fmt.Println("Snabbhetspoäng: ", int(1000/float64(len(incorrect)+1)/secondsPerTask))
+	time.Sleep(time.Second)
 	for len(incorrect) > 0 {
 		incorrect = doTasks(incorrect)
 		countCorrect := len(tasks) - len(incorrect)
