@@ -19,8 +19,10 @@ func main() {
 		{"Addition upp 10", func() bool { return additionUppTill(10, 7) }},
 		{"Addition upp 20", func() bool { return additionUppTill(20, 7) }},
 		{"Addition upp 40", func() bool { return additionUppTill(40, 7) }},
+		{"Addition upp 100", func() bool { return additionUppTill(100, 7) }},
 		{"Subtraktion upp 10", func() bool { return subtraktionUppTill(10, 7) }},
 		{"Subtraktion upp 20", func() bool { return subtraktionUppTill(20, 7) }},
+		{"Subtraktion upp 100", func() bool { return subtraktionUppTill(100, 7) }},
 		{"10-kompisar", func() bool { return tioKompisar() }},
 		{"Avsluta", func() bool {
 			fmt.Println("Hejdå")
