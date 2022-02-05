@@ -16,15 +16,16 @@ type menuitem struct {
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	menuitems := []menuitem{
-		{"Addition upp 10", func() bool { return additionUppTill(10, 7) }},
+//		{"Addition upp 10", func() bool { return additionUppTill(10, 7) }},
 		{"Addition upp 20", func() bool { return additionUppTill(20, 7) }},
 		{"Addition upp 40", func() bool { return additionUppTill(40, 7) }},
 		{"Addition upp 100", func() bool { return additionUppTill(100, 7) }},
 		{"Addition upp 1000", func() bool { return additionUppTill(1000, 10) }},
-		{"Subtraktion upp 10", func() bool { return subtraktionUppTill(10, 7) }},
-		{"Subtraktion upp 20", func() bool { return subtraktionUppTill(20, 7) }},
+//		{"Subtraktion upp 10", func() bool { return subtraktionUppTill(10, 7) }},
+//		{"Subtraktion upp 20", func() bool { return subtraktionUppTill(20, 7) }},
 		{"Subtraktion upp 100", func() bool { return subtraktionUppTill(100, 7) }},
 		{"Subtraktion upp 1000", func() bool { return subtraktionUppTill(1000, 10) }},
+		{"multiplikation upp till 11", func() bool { return multiplikationUppTill(11, 15) }},
 		{"10-kompisar", func() bool { return tioKompisar() }},
 		{"Avsluta", func() bool {
 			fmt.Println("Hejdå")

@@ -29,6 +29,7 @@ type task struct {
 	op     operator
 }
 
+var gonger = operator{"*", func(a int, b int) int { return a * b }}
 var plus = operator{"+", func(a int, b int) int { return a + b }}
 var minus = operator{"-", func(a int, b int) int { return a - b }}
 
@@ -60,13 +61,15 @@ func doTasks(tasks []task) []task {
 			fmt.Println("Rätt!")
 			countCorrect++
 		} else {
-			fmt.Println("Fel! Rätt svar är ", task.op.Op(task.first, task.second))
+			//fmt.Println("Fel! Rätt svar är ", task.op.Op(task.first, task.second))
+			fmt.Println("Fel! Försök igen")
 			incorrect = append(incorrect, task)
 			time.Sleep(time.Second)
 		}
 	}
 	return incorrect
 }
+
 
 func additionUppTill(high int, count int) bool {
 	var tasks []task
@@ -85,7 +88,32 @@ func additionUppTill(high int, count int) bool {
 	}
 	return true
 }
+func multiplikationUppTill(high int, count int) bool {
+	start := time.Now()	
+	var tasks []task
+	for i := 0; i < count; i++ {
+		a := rand.Intn(high)
+		b := rand.Intn(high)
+		tasks = append(tasks, task{a, b, gonger})
+	}
+	incorrect := doTasks(tasks)
+	countCorrect := len(tasks) - len(incorrect)
+	fmt.Printf("Du hade %d rätt av %d\n", countCorrect, count)
+	for len(incorrect) > 0 {
+		incorrect = doTasks(incorrect)
+		countCorrect := len(tasks) - len(incorrect)
+		fmt.Printf("Du hade %d rätt av %d\n", countCorrect, count)
+	}
+	end := time.Now()
+	totalTid := int(end.Sub(start).Seconds())
+	minuter := int(totalTid / 60)
+	sekunder := totalTid - minuter * 60
+	fmt.Printf("Det tog %d minuter och %d sekunder totalt.\n", minuter, sekunder)
+	secondsPerTask := (end.Sub(start).Seconds()) / float64(len(tasks))
+	fmt.Printf("Sekunder per fråga: %.1f\n", secondsPerTask)
 
+	return true
+}
 func subtraktionUppTill(high int, count int) bool {
 	var tasks []task
 	for i := 0; i < count; i++ {
